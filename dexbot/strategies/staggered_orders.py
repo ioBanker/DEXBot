@@ -109,8 +109,8 @@ class Strategy(StrategyBase):
         self.order_min_quote = 0
 
         # Minimal check interval is needed to prevent event queue accumulation
-        self.min_check_interval = 1
-        self.max_check_interval = 120
+        self.min_check_interval = 15
+        self.max_check_interval = 150
         self.check_interval = self.min_check_interval
 
         # If no bootstrap state is recorded, assume we're in bootstrap

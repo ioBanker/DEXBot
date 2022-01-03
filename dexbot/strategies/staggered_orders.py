@@ -177,7 +177,7 @@ class Strategy(StrategyBase):
         previous_bootstrap_state = self['bootstrapping']
 
         # Prepare to bundle operations into single transaction
-        self.bitshares.bundle = True
+        self.bitshares.bundle = False # disabled on slower machines 
 
         # BASE asset check
         if self.base_balance > self.base_asset_threshold:

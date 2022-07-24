@@ -403,7 +403,7 @@ def add_account(validator, whiptail):
     """
 
     account = whiptail.prompt("Your Account Name")
-    private_key = whiptail.prompt("Your Private Key", password=True)
+    private_key = whiptail.prompt("Your Private Key (Active Permission)", password=True)
 
     if not validator.validate_account_name(account):
         whiptail.alert("Account name does not exist.")

@@ -109,8 +109,8 @@ class Strategy(StrategyBase):
         self.order_min_quote = 0
 
         # Minimal check interval is needed to prevent event queue accumulation
-        self.min_check_interval = 1
-        self.max_check_interval = 120
+        self.min_check_interval = 15
+        self.max_check_interval = 150
         self.check_interval = self.min_check_interval
 
         # If no bootstrap state is recorded, assume we're in bootstrap
@@ -177,7 +177,7 @@ class Strategy(StrategyBase):
         previous_bootstrap_state = self['bootstrapping']
 
         # Prepare to bundle operations into single transaction
-        self.bitshares.bundle = True
+        self.bitshares.bundle = False # disabled on slower machines 
 
         # BASE asset check
         if self.base_balance > self.base_asset_threshold:
@@ -202,7 +202,8 @@ class Strategy(StrategyBase):
                 The goal is to handle race condition when partially filled order was further filled before we actually
                 replaced them.
                 """
-                if str(exception).startswith('Assert Exception: maybe_found != nullptr: Unable to find Object'):
+                str_exception = str(exception)
+                if ('Order does not exist' in str_exception) or ('Unable to find Object' in str_exception):
                     self.log.warning(exception)
                     self.bitshares.txbuffer.clear()
                     return
